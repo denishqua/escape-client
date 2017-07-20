@@ -43,7 +43,7 @@ while True:
                     pygame.mixer.music.stop()
                     released_time = int(round(time.time()*1000))
                     difference = released_time - pressed_time
-                    if difference < 200 and difference > 0:
+                    if difference < 250 and difference > 0:
                         curr_buffer += "S"
                         print("short")
                     elif difference < 1000:
@@ -67,6 +67,7 @@ while True:
                 difference = curr_time - pressed_time
                 if difference > 2000:
                     pressed_time = curr_time
+                    released_time = curr_time
                     if current_mode == "keyboard":
                         current_mode = "esc"
                         print("changing to esc mode")
