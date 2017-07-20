@@ -12,10 +12,20 @@ sounds.append(pygame.mixer.Sound("/home/pi/Desktop/esc-button/sounds/KeyboardMod
 sounds.append(pygame.mixer.Sound("/home/pi/Desktop/esc-button/sounds/magic.wav"))
 sounds[2].set_volume(0.25)
 
-dictionary = {'SL':'a', 'LSSS':'b', 'LSLS':'c', 'LSS':'d', 'S':'e', 'SSLS':'f', 'LLS':'g', 'SSSS':'h', 'SS':'i', 'SLLL':'j', 'LSL':'k', 'SLSS':'l', 'LL':'m', 'LS':'n', 'LLL':'o', 'SLLS':'p', 'LLSL':'q', 'SLS':'r', 'SSS':'s', 'L':'t', 'SSL':'u', 'SSSL':'v', 'SLL':'w', 'LSSL':'x', 'LSLL':'y', 'LLSS':'z'}
+dictionary = {'SL':'a', 'LSSS':'b', 'LSLS':'c', 'LSS':'d', 'S':'e',\
+              'SSLS':'f', 'LLS':'g', 'SSSS':'h', 'SS':'i', 'SLLL':'j',\
+              'LSL':'k', 'SLSS':'l', 'LL':'m', 'LS':'n', 'LLL':'o',\
+              'SLLS':'p', 'LLSL':'q', 'SLS':'r', 'SSS':'s', 'L':'t',\
+              'SSL':'u', 'SSSL':'v', 'SLL':'w', 'LSSL':'x', 'LSLL':'y',\
+              'LLSS':'z',\
+              'SLSLSL':'.', 'LLSSLL':',', 'SSLLSS':'?',\
+              'SLLLL':'1', 'SSLLL':'2', 'SSSLL':'3', 'SSSSL':'4', 'SSSSS':'5',\
+              'LSSSS':'6', 'LLSSS':'7', 'LLLSS':'8', 'LLLLS':'9', 'LLLLL':'0',\
+              'SSSSLL':'CAPS', 'SSSSSL':'\\enter\\', 'SSSSSS':'\\delete\\'}
 UDP_IP = '10.6.1.30'
 UDP_PORT = 9980
 ESC = '\\escape\\'
+CAPS = False
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
@@ -63,8 +73,14 @@ while True:
                     released_time = curr_time
                     if curr_buffer in dictionary:
                         letter = dictionary[curr_buffer]
-                        print("<<<<< sending " + letter + " <<<<<")
-                        s.sendto(letter, (UDP_IP, UDP_PORT))
+                        if letter == "CAPS":
+                            CAPS = not CAPS
+                            print("CAPS LOCK " + str(CAPS))
+                        else:
+                            if CAPS and len(letter) < 2:
+                                letter = letter.upper()
+                            print("<<<<< sending " + letter + " <<<<<")
+                            s.sendto(letter, (UDP_IP, UDP_PORT))
                     else:
                         print("<<<<< ERROR " + curr_buffer + " is invalid <<<<<")
                     curr_buffer = ""
