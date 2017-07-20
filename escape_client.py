@@ -12,6 +12,7 @@ sounds.append(pygame.mixer.Sound("/home/pi/Desktop/esc-button/sounds/KeyboardMod
 sounds.append(pygame.mixer.Sound("/home/pi/Desktop/esc-button/sounds/magic.wav"))
 sounds.append(pygame.mixer.Sound("/home/pi/Desktop/esc-button/sounds/ReconnectingAudio.wav"))
 sounds.append(pygame.mixer.Sound("/home/pi/Desktop/esc-button/sounds/ConnectedAudio.wav"))
+sounds.append(pygame.mixer.Sound("/home/pi/Desktop/esc-button/sounds/MouseModeAudio.wav"))
 sounds[2].set_volume(0.25)
 
 dictionary = {'SL':'a', 'LSSS':'b', 'LSLS':'c', 'LSS':'d', 'S':'e',\
@@ -25,7 +26,8 @@ dictionary = {'SL':'a', 'LSSS':'b', 'LSLS':'c', 'LSS':'d', 'S':'e',\
               'LSSSS':'6', 'LLSSS':'7', 'LLLSS':'8', 'LLLLS':'9', 'LLLLL':'0',\
               'SSSSLL':'CAPS', 'SSSSSL':'\\enter\\', 'SSSSSS':'\\delete\\'}
 
-mouse_inputs = {'SS':'\\up\\', 'LL':'\\down\\', 'SL':'\\left\\', 'LS':'\\right\\'}
+mouse_inputs = {'SS':'\\up\\', 'LL':'\\down\\', 'SL':'\\left\\', 'LS':'\\right\\',\
+                'S':'\\left_click\\', 'L':'\\right_click\\'}
 
 UDP_IP = '10.6.1.30'
 UDP_PORT = 9980
@@ -39,6 +41,11 @@ released_time = int(round(time.time()*1000))
 curr_time = int(round(time.time()*1000))
 just_changed = False
 current_mode = "esc"
+
+mouse_dir = ''
+move_mouse = False
+just_moved = False
+
 
 while True:
     try:
@@ -58,12 +65,18 @@ while True:
                     print("ESC")
                 elif current_mode == "keyboard":
                     sounds[2].play()
+                elif just_moved:
+                    mouse_dir = ''
+                    just_moved = False
+                elif mouse_dir and move_mouse:
+                    move_mouse = False
+                    just_moved = True
             elif input_state == True and pressed:
                 pressed = False
                 released_time = int(round(time.time()*1000))
                 difference = released_time - pressed_time
                 sounds[2].stop()
-                if current_mode != "esc" and not just_changed and difference > 60:
+                if current_mode != "esc" and not move_mouse and not just_changed and not just_moved and difference > 20:
                     if difference < 250:
                         curr_buffer += "S"
                         print("short")
@@ -87,10 +100,15 @@ while True:
                                 letter = letter.upper()
                             print("<<<<< sending " + letter + " <<<<<")
                             s.sendto(letter, (UDP_IP, UDP_PORT))
-                    elif curr_buffer in mouse_inputs and current_mode == 'mouse':
-                        direction = mouse_inputs[curr_buffer]
-                        print("<<<<< sending " + direction + " <<<<<")
-                        s.sendto(direction, (UDP_IP, UDP_PORT))
+                    elif curr_buffer in mouse_inputs and current_mode == 'mouse' and not move_mouse:
+                        mouse_mode = mouse_inputs[curr_buffer]
+                        if not mouse_dir and mouse_mode != '\\right_click\\' and mouse_mode != '\\left_click\\':
+                            mouse_dir = mouse_mode
+                            move_mouse = True
+                            print("<<<<< changing to " + mouse_dir + " <<<<<")
+                        elif mouse_mode == '\\right_click\\' or mouse_mode == '\\left_click\\':
+                            print("<<<<< sending " + mouse_mode + " <<<<<")
+                            s.sendto(mouse_mode, (UDP_IP, UDP_PORT))
                     else:
                         print("<<<<< ERROR " + curr_buffer + " is invalid for "\
                               + current_mode + " <<<<<")
@@ -108,17 +126,19 @@ while True:
                     elif current_mode == "esc":
                         current_mode = "mouse"
                         print("changing to mouse")
+                        sounds[5].play()
                     else:
                         current_mode = "keyboard"
+                        mouse_dir = ''
+                        move_mouse = False
+                        just_moved = False
                         print("changing to keyboard")
                         sounds[1].play()
-                    
-                time.sleep(0.05)
+            elif mouse_dir and move_mouse:
+                print("<<<<< sending " + mouse_dir + " <<<<<")
+                s.sendto(mouse_dir, (UDP_IP, UDP_PORT))
+            time.sleep(0.05)
     except IOError, e:
         print('reconnecting...')
         sounds[3].play()
         time.sleep(1) 
-
-
-p.terminate()
-
