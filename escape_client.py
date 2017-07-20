@@ -5,9 +5,12 @@ from datetime import datetime
 import socket
 import pygame
 
+sounds = []
 pygame.mixer.init(buffer=512)
+sounds.append(pygame.mixer.Sound("/home/pi/Desktop/esc-button/sounds/EscapeModeAudio.mp3"))
+sounds.append(pygame.mixer.Sound("/home/pi/Desktop/esc-button/sounds/KeyboardModeAudio.mp3"))
+sounds.append(pygame.mixer.Sound("/home/pi/Desktop/esc-button/sounds/magic.wav"))
 
-pygame.mixer.music.load("/home/pi/Desktop/esc-button/sounds/magic.wav")
 
 dictionary = {'SL':'a', 'LSSS':'b', 'LSLS':'c', 'LSS':'d', 'S':'e', 'SSLS':'f', 'LLS':'g', 'SSSS':'h', 'SS':'i', 'SLLL':'j', 'LSL':'k', 'SLSS':'l', 'LL':'m', 'LS':'n', 'LLL':'o', 'SLLS':'p', 'LLSL':'q', 'SLS':'r', 'SSS':'s', 'L':'t', 'SSL':'u', 'SSSL':'v', 'SLL':'w', 'LSSL':'x', 'LSLL':'y', 'LLSS':'z'}
 UDP_IP = '10.6.1.30'
@@ -38,11 +41,11 @@ while True:
                     s.sendto(ESC, (UDP_IP, UDP_PORT))
                     print("ESC")
                 elif current_mode == "keyboard":
-                    pygame.mixer.music.play()
+                    sounds[2].play()
             elif input_state == True and pressed:
                 pressed = False
                 if current_mode == "keyboard" and not just_changed:
-                    pygame.mixer.music.stop()
+                    sounds[2].stop()
                     released_time = int(round(time.time()*1000))
                     difference = released_time - pressed_time
                     if difference < 250:
@@ -74,9 +77,11 @@ while True:
                     if current_mode == "keyboard":
                         current_mode = "esc"
                         print("changing to esc mode")
+                        sounds[0].play()
                     else:
                         current_mode = "keyboard"
                         print("changing to keyboard")
+                        sounds[1].play()
                     
                 time.sleep(0.05)
     except IOError, e:
