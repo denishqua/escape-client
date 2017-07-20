@@ -92,7 +92,8 @@ while True:
                         print("<<<<< sending " + direction + " <<<<<")
                         s.sendto(direction, (UDP_IP, UDP_PORT))
                     else:
-                        print("<<<<< ERROR " + curr_buffer + " is invalid <<<<<")
+                        print("<<<<< ERROR " + curr_buffer + " is invalid for "\
+                              + current_mode + " <<<<<")
                     curr_buffer = ""
             elif pressed and not just_changed:
                 curr_time = int(round(time.time()*1000))
