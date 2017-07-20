@@ -115,6 +115,7 @@ while True:
                             if CAPS and len(letter) < 2:
                                 letter = letter.upper()
                             if shift:
+                                shift = False
                                 letter = '\\shift ' + letter + '\\'
                             print("<<<<< sending " + letter + " <<<<<")
                             s.sendto(letter, (UDP_IP, UDP_PORT))
