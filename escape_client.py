@@ -27,7 +27,7 @@ dictionary = {'SL':'a', 'LSSS':'b', 'LSLS':'c', 'LSS':'d', 'S':'e',\
               'SSSSLL':'CAPS', 'SSSSSL':'\\enter\\', 'SSSSSS':'\\delete\\',\
               'SLSSS':'\\aup\\', 'SLSLL':'\\adown\\', 'SLSSL':'\\aleft\\', 'SLSLS':'\\aright\\'}
 
-mouse_inputs = {'SS':'\\up\\', 'LL':'\\down\\', 'SL':'\\left\\', 'LS':'\\right\\',\
+mouse_inputs = {'SS':'\\up', 'LL':'\\down', 'SL':'\\left', 'LS':'\\right',\
                 'S':'\\left_click\\', 'L':'\\right_click\\'}
 
 UDP_IP = '10.6.1.30'
@@ -48,7 +48,7 @@ move_mouse = False
 just_moved = False
 mouse_speed = 0.5
 mouse_max_speed = 10
-mouse_acc = 0.5
+mouse_acc = 0.25
 
 
 while True:
@@ -142,7 +142,7 @@ while True:
             elif mouse_dir and move_mouse:
                 if mouse_speed < mouse_max_speed:
                     mouse_speed += mouse_acc
-                s.sendto(mouse_dir + ' ' + str(int(mouse_speed)), (UDP_IP, UDP_PORT))
+                s.sendto(mouse_dir + ' ' + str(int(mouse_speed)) + '\\', (UDP_IP, UDP_PORT))
             time.sleep(0.05)
     except IOError, e:
         print('reconnecting...')
