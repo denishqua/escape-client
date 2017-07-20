@@ -31,13 +31,13 @@ while True:
 	while True:
 	    input_state = GPIO.input(18)
 	    if input_state == False and not pressed:
-                pressed_time = int(round(time.time()*1000))
+            pressed_time = int(round(time.time()*1000))
 	        pressed = True
 	        if current_mode == "esc":
-                    s.sendto(ESC, (UDP_IP, UDP_PORT))
-                    print("ESC")
-                elif current_mode == "keyboard":
-                    pygame.mixer.music.play()
+                s.sendto(ESC, (UDP_IP, UDP_PORT))
+                print("ESC")
+            elif current_mode == "keyboard":
+                pygame.mixer.music.play()
 	    elif input_state == True and pressed:
 	        pressed = False
             if current_mode == "keyboard" and not just_changed:
