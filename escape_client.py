@@ -13,6 +13,8 @@ sounds.append(pygame.mixer.Sound("/home/pi/Desktop/esc-button/sounds/magic.wav")
 sounds.append(pygame.mixer.Sound("/home/pi/Desktop/esc-button/sounds/ReconnectingAudio.wav"))
 sounds.append(pygame.mixer.Sound("/home/pi/Desktop/esc-button/sounds/ConnectedAudio.wav"))
 sounds.append(pygame.mixer.Sound("/home/pi/Desktop/esc-button/sounds/MouseModeAudio.wav"))
+sounds.append(pygame.mixer.Sound("/home/pi/Desktop/esc-button/sounds/capslockon.wav"))
+sounds.append(pygame.mixer.Sound("/home/pi/Desktop/esc-button/sounds/capslockoff.wav"))
 sounds[2].set_volume(0.25)
 
 dictionary = {'SL':'a', 'LSSS':'b', 'LSLS':'c', 'LSS':'d', 'S':'e',\
@@ -100,6 +102,10 @@ while True:
                         letter = dictionary[curr_buffer]
                         if letter == "CAPS":
                             CAPS = not CAPS
+                            if CAPS:
+                                sounds[6].play()
+                            else:
+                                sounds[7].play()
                             print("CAPS LOCK " + str(CAPS))
                         else:
                             if CAPS and len(letter) < 2:
