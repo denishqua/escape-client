@@ -25,7 +25,8 @@ dictionary = {'SL':'a', 'LSSS':'b', 'LSLS':'c', 'LSS':'d', 'S':'e',\
               'SLLLL':'1', 'SSLLL':'2', 'SSSLL':'3', 'SSSSL':'4', 'SSSSS':'5',\
               'LSSSS':'6', 'LLSSS':'7', 'LLLSS':'8', 'LLLLS':'9', 'LLLLL':'0',\
               'SSSSLL':'CAPS', 'SSSSSL':'\\enter\\', 'SSSSSS':'\\delete\\',\
-              'SLSSS':'\\aup\\', 'SLSLL':'\\adown\\', 'SLSSL':'\\aleft\\', 'SLSLS':'\\aright\\'}
+              'SLSSS':'\\aup\\', 'SLSLL':'\\adown\\', 'SLSSL':'\\aleft\\', 'SLSLS':'\\aright\\',
+              'LSLSS':'(', 'LSLSL':')', 'LSSLS':']', 'LSSLL':']', 'LSLLS':'{', 'LSLLL':'}'}
 
 mouse_inputs = {'SS':'\\up', 'LL':'\\down', 'SL':'\\left', 'LS':'\\right',\
                 'S':'\\left_click\\', 'L':'\\right_click\\'}
@@ -108,6 +109,7 @@ while True:
                     elif curr_buffer in mouse_inputs and current_mode == 'mouse' and not move_mouse:
                         mouse_mode = mouse_inputs[curr_buffer]
                         if not mouse_dir and mouse_mode != '\\right_click\\' and mouse_mode != '\\left_click\\':
+                            mouse_speed = 0
                             mouse_dir = mouse_mode
                             move_mouse = True
                             print("<<<<< moving " + mouse_dir + " <<<<<")
@@ -137,6 +139,7 @@ while True:
                         mouse_dir = ''
                         move_mouse = False
                         just_moved = False
+                        mouse_speed = 0
                         print("changing to keyboard")
                         sounds[1].play()
             elif mouse_dir and move_mouse:
