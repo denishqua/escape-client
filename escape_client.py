@@ -24,7 +24,8 @@ dictionary = {'SL':'a', 'LSSS':'b', 'LSLS':'c', 'LSS':'d', 'S':'e',\
               'SLSLSL':'.', 'LLSSLL':',', 'SSLLSS':'?', 'SSLL':' ',\
               'SLLLL':'1', 'SSLLL':'2', 'SSSLL':'3', 'SSSSL':'4', 'SSSSS':'5',\
               'LSSSS':'6', 'LLSSS':'7', 'LLLSS':'8', 'LLLLS':'9', 'LLLLL':'0',\
-              'SSSSLL':'CAPS', 'SSSSSL':'\\enter\\', 'SSSSSS':'\\delete\\'}
+              'SSSSLL':'CAPS', 'SSSSSL':'\\enter\\', 'SSSSSS':'\\delete\\',\
+              'SLSSS':'\\aup\\', 'SLSLL':'\\adown\\', 'SLSSL':'\\aleft\\', 'SLSLS':'\\aright\\'}
 
 mouse_inputs = {'SS':'\\up\\', 'LL':'\\down\\', 'SL':'\\left\\', 'LS':'\\right\\',\
                 'S':'\\left_click\\', 'L':'\\right_click\\'}
@@ -45,6 +46,9 @@ current_mode = "esc"
 mouse_dir = ''
 move_mouse = False
 just_moved = False
+mouse_speed = 0.5
+mouse_max_speed = 10
+mouse_acc = 0.5
 
 
 while True:
@@ -71,6 +75,7 @@ while True:
                 elif mouse_dir and move_mouse:
                     move_mouse = False
                     just_moved = True
+                    print("<<<<< STOP >>>>>")
             elif input_state == True and pressed:
                 pressed = False
                 released_time = int(round(time.time()*1000))
@@ -105,7 +110,7 @@ while True:
                         if not mouse_dir and mouse_mode != '\\right_click\\' and mouse_mode != '\\left_click\\':
                             mouse_dir = mouse_mode
                             move_mouse = True
-                            print("<<<<< changing to " + mouse_dir + " <<<<<")
+                            print("<<<<< moving " + mouse_dir + " <<<<<")
                         elif mouse_mode == '\\right_click\\' or mouse_mode == '\\left_click\\':
                             print("<<<<< sending " + mouse_mode + " <<<<<")
                             s.sendto(mouse_mode, (UDP_IP, UDP_PORT))
@@ -113,7 +118,7 @@ while True:
                         print("<<<<< ERROR " + curr_buffer + " is invalid for "\
                               + current_mode + " <<<<<")
                     curr_buffer = ""
-            elif pressed and not just_changed:
+            elif pressed:
                 curr_time = int(round(time.time()*1000))
                 difference = curr_time - pressed_time
                 if difference > 2000:
@@ -135,10 +140,11 @@ while True:
                         print("changing to keyboard")
                         sounds[1].play()
             elif mouse_dir and move_mouse:
-                print("<<<<< sending " + mouse_dir + " <<<<<")
-                s.sendto(mouse_dir, (UDP_IP, UDP_PORT))
+                if mouse_speed < mouse_max_speed:
+                    mouse_speed += mouse_acc
+                s.sendto(mouse_dir + ' ' + str(mouse_speed), (UDP_IP, UDP_PORT))
             time.sleep(0.05)
     except IOError, e:
         print('reconnecting...')
         sounds[3].play()
-        time.sleep(1) 
+        time.sleep(2) 
