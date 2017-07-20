@@ -46,7 +46,7 @@ while True:
                     if difference < 250 and difference > 0:
                         curr_buffer += "S"
                         print("short")
-                    elif difference < 1000:
+                    elif difference < 1000 and difference > 0:
                         curr_buffer += "L"
                         print("long")
             elif not pressed and curr_buffer != "" and current_mode == "keyboard":
