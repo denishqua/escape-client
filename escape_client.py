@@ -23,12 +23,12 @@ dictionary = {'SL':'a', 'LSSS':'b', 'LSLS':'c', 'LSS':'d', 'S':'e',\
               'SLLS':'p', 'LLSL':'q', 'SLS':'r', 'SSS':'s', 'L':'t',\
               'SSL':'u', 'SSSL':'v', 'SLL':'w', 'LSSL':'x', 'LSLL':'y',\
               'LLSS':'z',\
-              'SLSLSL':'.', 'LLSSLL':',', 'SSLLSS':'?', 'SSLL':' ',\
+              'SLSLSL':'.', 'LLSSLL':',', 'SSLLSS':'/', 'SSLL':' ',\
               'SLLLL':'1', 'SSLLL':'2', 'SSSLL':'3', 'SSSSL':'4', 'SSSSS':'5',\
               'LSSSS':'6', 'LLSSS':'7', 'LLLSS':'8', 'LLLLS':'9', 'LLLLL':'0',\
-              'SSSSLL':'CAPS', 'SSSSSL':'\\enter\\', 'SSSSSS':'\\delete\\',\
+              'SSSSLL':'CAPS', 'SSSSSL':'\\enter\\', 'SSSSSS':'\\delete\\', 'SLSL':'\\shift',\
               'SLSSS':'\\aup\\', 'SLSLL':'\\adown\\', 'SLSSL':'\\aleft\\', 'SLSLS':'\\aright\\',
-              'LSLSS':'(', 'LSLSL':')', 'LSSLS':']', 'LSSLL':']', 'LSLLS':'{', 'LSLLL':'}'}
+              'LSLSS':'-', 'LSLSL':'+', 'LSSLS':'[', 'LSSLL':']', 'LSLLS':';', 'LSLLL':'\''}
 
 mouse_inputs = {'SS':'\\up', 'LL':'\\down', 'SL':'\\left', 'LS':'\\right',\
                 'S':'\\left_click\\', 'L':'\\right_click\\'}
@@ -45,6 +45,7 @@ released_time = int(round(time.time()*1000))
 curr_time = int(round(time.time()*1000))
 just_changed = False
 current_mode = "esc"
+shift = False
 
 mouse_dir = ''
 move_mouse = False
@@ -88,7 +89,7 @@ while True:
                     if difference < 250:
                         curr_buffer += "S"
                         print("short")
-                    elif difference < 1000:
+                    elif difference < 2000:
                         curr_buffer += "L"
                         print("long")
                 just_changed = False
@@ -107,9 +108,14 @@ while True:
                             else:
                                 sounds[7].play()
                             print("CAPS LOCK " + str(CAPS))
+                        elif letter == '\\shift':
+                            shift = True
+                            print('<<<<< shift >>>>>')
                         else:
                             if CAPS and len(letter) < 2:
                                 letter = letter.upper()
+                            if shift:
+                                letter = '\\shift ' + letter + '\\'
                             print("<<<<< sending " + letter + " <<<<<")
                             s.sendto(letter, (UDP_IP, UDP_PORT))
                     elif curr_buffer in mouse_inputs and current_mode == 'mouse' and not move_mouse:
