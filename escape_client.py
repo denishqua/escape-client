@@ -6,6 +6,7 @@ import socket
 import pygame
 
 pygame.mixer.init(buffer=512)
+
 pygame.mixer.music.load("/home/pi/Desktop/esc-button/sounds/magic.wav")
 
 dictionary = {'SL':'a', 'LSSS':'b', 'LSLS':'c', 'LSS':'d', 'S':'e', 'SSLS':'f', 'LLS':'g', 'SSSS':'h', 'SS':'i', 'SLLL':'j', 'LSL':'k', 'SLSS':'l', 'LL':'m', 'LS':'n', 'LLL':'o', 'SLLS':'p', 'LLSL':'q', 'SLS':'r', 'SSS':'s', 'L':'t', 'SSL':'u', 'SSSL':'v', 'SLL':'w', 'LSSL':'x', 'LSLL':'y', 'LLSS':'z'}
