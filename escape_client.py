@@ -142,7 +142,7 @@ while True:
             elif mouse_dir and move_mouse:
                 if mouse_speed < mouse_max_speed:
                     mouse_speed += mouse_acc
-                s.sendto(mouse_dir + ' ' + str(mouse_speed), (UDP_IP, UDP_PORT))
+                s.sendto(mouse_dir + ' ' + str(int(mouse_speed)), (UDP_IP, UDP_PORT))
             time.sleep(0.05)
     except IOError, e:
         print('reconnecting...')
