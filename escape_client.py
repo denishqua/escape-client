@@ -50,7 +50,7 @@ shift = False
 mouse_dir = ''
 move_mouse = False
 just_moved = False
-mouse_speed = 0.5
+mouse_speed = 1
 mouse_max_speed = 10
 mouse_acc = 0.25
 
