@@ -61,6 +61,13 @@ while True:
         s.connect((UDP_IP, UDP_PORT))
         print('connected!')
         sounds[4].play()
+        time.sleep(1)
+        if current_mode == 'esc':
+            sounds[0].play()
+        elif current_mode == 'keyboard':
+            sounds[1].play()
+        else:
+            sounds[5].play()
         pressed = False
         curr_buffer = ""
         while True:
