@@ -28,7 +28,7 @@ dictionary = {'SL':'a', 'LSSS':'b', 'LSLS':'c', 'LSS':'d', 'S':'e',\
               'LSSSS':'6', 'LLSSS':'7', 'LLLSS':'8', 'LLLLS':'9', 'LLLLL':'0',\
               'SSSSLL':'CAPS', 'SSSSSL':'\\enter\\', 'SSSSSS':'\\delete\\', 'SLSL':'\\shift',\
               'SLSSS':'\\aup\\', 'SLSLL':'\\adown\\', 'SLSSL':'\\aleft\\', 'SLSLS':'\\aright\\',
-              'LSLSS':'-', 'LSLSL':'+', 'LSSLS':'[', 'LSSLL':']', 'LSLLS':';', 'LSLLL':'\''}
+              'LSLSS':'-', 'LSLSL':'=', 'LSSLS':'[', 'LSSLL':']', 'LSLLS':';', 'LSLLL':'\''}
 
 mouse_inputs = {'SS':'\\up', 'LL':'\\down', 'SL':'\\left', 'LS':'\\right',\
                 'S':'\\left_click\\', 'L':'\\right_click\\', 'SSS':'\\double_click\\'}
