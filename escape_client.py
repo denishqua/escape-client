@@ -129,7 +129,7 @@ while True:
                     elif curr_buffer in mouse_inputs and current_mode == 'mouse' and not move_mouse:
                         mouse_mode = mouse_inputs[curr_buffer]
                         if not mouse_dir and not 'click' in mouse_mode:
-                            mouse_speed = 0
+                            mouse_speed = 1
                             mouse_dir = mouse_mode
                             move_mouse = True
                             print("<<<<< moving " + mouse_dir + " <<<<<")
@@ -159,7 +159,7 @@ while True:
                         mouse_dir = ''
                         move_mouse = False
                         just_moved = False
-                        mouse_speed = 0
+                        mouse_speed = 1
                         print("changing to keyboard")
                         sounds[1].play()
             elif mouse_dir and move_mouse:
