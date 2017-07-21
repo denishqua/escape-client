@@ -31,7 +31,7 @@ dictionary = {'SL':'a', 'LSSS':'b', 'LSLS':'c', 'LSS':'d', 'S':'e',\
               'LSLSS':'-', 'LSLSL':'+', 'LSSLS':'[', 'LSSLL':']', 'LSLLS':';', 'LSLLL':'\''}
 
 mouse_inputs = {'SS':'\\up', 'LL':'\\down', 'SL':'\\left', 'LS':'\\right',\
-                'S':'\\left_click\\', 'L':'\\right_click\\'}
+                'S':'\\left_click\\', 'L':'\\right_click\\', 'SSS':'\\double_click\\'}
 
 UDP_IP = '10.6.1.30'
 UDP_PORT = 9980
@@ -128,12 +128,12 @@ while True:
                             s.sendto(letter, (UDP_IP, UDP_PORT))
                     elif curr_buffer in mouse_inputs and current_mode == 'mouse' and not move_mouse:
                         mouse_mode = mouse_inputs[curr_buffer]
-                        if not mouse_dir and mouse_mode != '\\right_click\\' and mouse_mode != '\\left_click\\':
+                        if not mouse_dir and not 'click' in mouse_mode:
                             mouse_speed = 0
                             mouse_dir = mouse_mode
                             move_mouse = True
                             print("<<<<< moving " + mouse_dir + " <<<<<")
-                        elif mouse_mode == '\\right_click\\' or mouse_mode == '\\left_click\\':
+                        elif 'click' in mouse_mode:
                             print("<<<<< sending " + mouse_mode + " <<<<<")
                             s.sendto(mouse_mode, (UDP_IP, UDP_PORT))
                     else:
