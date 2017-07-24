@@ -146,7 +146,8 @@ while True:
                     elif curr_buffer in speed_change:
                         if speed_change[curr_buffer]:
                             multiplyer *= speed_change[curr_buffer]
-                        else multiplyer = 1
+                        else:
+                            multiplyer = 1
                         print("multiplyer = " + str(multiplyer))
                     else:
                         print("<<<<< ERROR " + curr_buffer + " is invalid for "\
