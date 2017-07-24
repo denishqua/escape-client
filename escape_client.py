@@ -55,6 +55,12 @@ mouse_speed = 1
 mouse_max_speed = 10
 mouse_acc = 0.25
 
+sleep_delay = 0.05
+long_cut_off = 250
+buffer_time = 500
+multiplyer = 1
+
+speed_change = {'LLLLLLLL':1.25, 'SSSSSSSS':0.75, 'SLSLSLSL':1/multiplyer}
 
 while True:
     try:
@@ -94,7 +100,7 @@ while True:
                 difference = released_time - pressed_time
                 sounds[2].stop()
                 if current_mode != "esc" and not move_mouse and not just_changed and not just_moved and difference > 20:
-                    if difference < 250:
+                    if difference < long_cut_off * multiplyer:
                         curr_buffer += "S"
                         print("short")
                     elif difference < 2000:
@@ -104,7 +110,7 @@ while True:
             elif not pressed and curr_buffer != "":
                 curr_time = int(round(time.time()*1000))
                 difference = curr_time - released_time
-                if difference > 500:
+                if difference > buffer_time * multiplyer:
                     pressed_time = curr_time
                     released_time = curr_time
                     if curr_buffer in dictionary and current_mode == "keyboard":
@@ -137,6 +143,8 @@ while True:
                         elif 'click' in mouse_mode:
                             print("<<<<< sending " + mouse_mode + " <<<<<")
                             s.sendto(mouse_mode, (UDP_IP, UDP_PORT))
+                    elif curr_buffer in speed_change:
+                        multiplyer != speed_change[curr_buffer]
                     else:
                         print("<<<<< ERROR " + curr_buffer + " is invalid for "\
                               + current_mode + " <<<<<")
@@ -167,7 +175,7 @@ while True:
                 if mouse_speed < mouse_max_speed:
                     mouse_speed += mouse_acc
                 s.sendto(mouse_dir + ' ' + str(int(mouse_speed)) + '\\', (UDP_IP, UDP_PORT))
-            time.sleep(0.05)
+            time.sleep(sleep_delay * multiplyer)
     except IOError, e:
         print('reconnecting...')
         sounds[3].play()
