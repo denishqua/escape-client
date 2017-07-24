@@ -144,7 +144,7 @@ while True:
                             print("<<<<< sending " + mouse_mode + " <<<<<")
                             s.sendto(mouse_mode, (UDP_IP, UDP_PORT))
                     elif curr_buffer in speed_change:
-                        multiplyer != speed_change[curr_buffer]
+                        multiplyer *= speed_change[curr_buffer]
                         print("multiplyer = " + str(multiplyer))
                     else:
                         print("<<<<< ERROR " + curr_buffer + " is invalid for "\
