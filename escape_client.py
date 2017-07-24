@@ -57,10 +57,10 @@ mouse_acc = 0.25
 
 sleep_delay = 0.05
 long_cut_off = 250
-buffer_time = 500
+buffer_time = 400
 multiplyer = 1
 
-speed_change = {'LLLLLLLL':1.25, 'SSSSSSSS':0.75, 'SLSLSLSL':1/multiplyer}
+speed_change = {'LLLLLLLL':1.25, 'SSSSSSSS':0.8, 'SLSLSLSL':None}
 
 while True:
     try:
@@ -144,7 +144,9 @@ while True:
                             print("<<<<< sending " + mouse_mode + " <<<<<")
                             s.sendto(mouse_mode, (UDP_IP, UDP_PORT))
                     elif curr_buffer in speed_change:
-                        multiplyer *= speed_change[curr_buffer]
+                        if speed_change[curr_buffer]:
+                            multiplyer *= speed_change[curr_buffer]
+                        else multiplyer = 1
                         print("multiplyer = " + str(multiplyer))
                     else:
                         print("<<<<< ERROR " + curr_buffer + " is invalid for "\
