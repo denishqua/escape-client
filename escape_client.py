@@ -152,6 +152,8 @@ while True:
                     else:
                         print("<<<<< ERROR " + curr_buffer + " is invalid for "\
                               + current_mode + " <<<<<")
+                        s.sendto("<<<<< ERROR " + curr_buffer + " is invalid for "\
+                              + current_mode + " <<<<<", (UDP_IP, UDP_PORT))
                     curr_buffer = ""
             elif pressed:
                 curr_time = int(round(time.time()*1000))
@@ -161,11 +163,13 @@ while True:
                     just_changed = True
                     if current_mode == "keyboard":
                         current_mode = "esc"
-                        print("changing to esc mode")
+                        print("changing to esc")
+                        s.sendto("changing to esc", (UDP_IP, UDP_PORT))
                         sounds[0].play()
                     elif current_mode == "esc":
                         current_mode = "mouse"
                         print("changing to mouse")
+                        s.sendto("changing to mouse", (UDP_IP, UDP_PORT))
                         sounds[5].play()
                     else:
                         current_mode = "keyboard"
@@ -174,6 +178,7 @@ while True:
                         just_moved = False
                         mouse_speed = 1
                         print("changing to keyboard")
+                        s.sendto("changing to keyboard", (UDP_IP, UDP_PORT))
                         sounds[1].play()
             elif mouse_dir and move_mouse:
                 if mouse_speed < mouse_max_speed:
