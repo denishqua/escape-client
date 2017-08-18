@@ -7,14 +7,14 @@ import pygame
 
 sounds = []
 pygame.mixer.init(buffer=512)
-sounds.append(pygame.mixer.Sound("/home/pi/Desktop/esc-button/sounds/EscapeModeAudio.wav"))
-sounds.append(pygame.mixer.Sound("/home/pi/Desktop/esc-button/sounds/KeyboardModeAudio.wav"))
-sounds.append(pygame.mixer.Sound("/home/pi/Desktop/esc-button/sounds/magic.wav"))
-sounds.append(pygame.mixer.Sound("/home/pi/Desktop/esc-button/sounds/ReconnectingAudio.wav"))
-sounds.append(pygame.mixer.Sound("/home/pi/Desktop/esc-button/sounds/ConnectedAudio.wav"))
-sounds.append(pygame.mixer.Sound("/home/pi/Desktop/esc-button/sounds/MouseModeAudio.wav"))
-sounds.append(pygame.mixer.Sound("/home/pi/Desktop/esc-button/sounds/capslockon.wav"))
-sounds.append(pygame.mixer.Sound("/home/pi/Desktop/esc-button/sounds/capslockoff.wav"))
+sounds.append(pygame.mixer.Sound("/home/pi/Desktop/escape/sounds/EscapeModeAudio.wav"))
+sounds.append(pygame.mixer.Sound("/home/pi/Desktop/escape/sounds/KeyboardModeAudio.wav"))
+sounds.append(pygame.mixer.Sound("/home/pi/Desktope/escape/sounds/magic.wav"))
+sounds.append(pygame.mixer.Sound("/home/pi/Desktop/escape/sounds/ReconnectingAudio.wav"))
+sounds.append(pygame.mixer.Sound("/home/pi/Desktop/escape/sounds/ConnectedAudio.wav"))
+sounds.append(pygame.mixer.Sound("/home/pi/Desktop/escape/sounds/MouseModeAudio.wav"))
+sounds.append(pygame.mixer.Sound("/home/pi/Desktop/escape/sounds/capslockon.wav"))
+sounds.append(pygame.mixer.Sound("/home/pi/Desktop/escape/sounds/capslockoff.wav"))
 sounds[2].set_volume(0.25)
 
 dictionary = {'SL':'a', 'LSSS':'b', 'LSLS':'c', 'LSS':'d', 'S':'e',\
